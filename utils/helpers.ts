@@ -1,4 +1,7 @@
 import { JobPosting } from "./types";
+import * as React from 'react';
+
+export const navigationRef = React.useRef<any>(null);
 
 export function dateNowMinusDays(days: number) {
   let d = new Date();
@@ -49,3 +52,16 @@ export function formatAMPM() {
   var strTime = hours + ':' + minutes + ' ' + ampm;
   return strTime;
 }
+
+export function navigate(name: string, params?: any) {
+  if (navigationRef && navigationRef.current) {
+    navigationRef.current.navigate(name, params);
+  }
+}
+
+export function goBack() {
+  return navigationRef.current.goBack();
+}
+
+
+
