@@ -3,6 +3,8 @@ import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
 
 import Colors from '../../constants/Colors';
+import { View } from '../../components/Themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -17,22 +19,31 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  async function handleLogout() {
+    try {
+      await AsyncStorage.removeItem('@isLoggedIn')
+    } catch (e) {
+      console.log(e);
+      // saving error
+    }
+  }
+
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       }}>
       <Tabs.Screen
-        name="index"
+        name="Jobs"
         options={{
           title: '',
           tabBarIcon: ({ color }) => <TabBarIcon name="briefcase" color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
+            <Link href="/" asChild>
+              <Pressable onPress={handleLogout}>
                 {({ pressed }) => (
                   <FontAwesome
-                    name="gear"
+                    name="sign-out"
                     size={25}
                     color={Colors[colorScheme ?? 'light'].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}

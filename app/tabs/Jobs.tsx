@@ -26,7 +26,7 @@ import { sortPseudoMatch } from "../../utils/helpers";
 import { JobPosting } from "../../utils/types";
 import Divider from "../../components/Divider";
 
-export default function TabOneScreen({}) {
+export default function Jobs({}) {
   const [mode, setMode] = useState<"for-you" | "recent">("for-you");
   const [jobList, setJobList] = useState([...JOB_LIST]);
   const [searchKey, setSearchKey] = useState("");
@@ -58,6 +58,9 @@ export default function TabOneScreen({}) {
   useEffect(() => {
     navigation.setOptions({
       title: "Jobs",
+      headerTitleStyle: {
+        opacity: 0,
+      },
     });
   }, []);
 
@@ -104,7 +107,15 @@ export default function TabOneScreen({}) {
           <View style={styles.listing}>
             <View style={styles.listingTop}>
               <Text style={styles.listingTitle}>{item.title}</Text>
-              <TouchableOpacity style={styles.iconContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(
+                    "modal" as never,
+                    { description: "Remove job listing" } as never
+                  )
+                }
+                style={styles.iconContainer}
+              >
                 <FontAwesome
                   color={Colors.dark.background}
                   name="close"
@@ -112,6 +123,12 @@ export default function TabOneScreen({}) {
                 />
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(
+                    "modal" as never,
+                    { description: "Add job listing to favorites" } as never
+                  )
+                }
                 style={[styles.iconContainer, { marginLeft: 10 }]}
               >
                 <FontAwesome
